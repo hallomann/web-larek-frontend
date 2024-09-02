@@ -1,2 +1,30 @@
 import './scss/styles.scss';
 
+import './types/Enums.ts';
+import './types/basket/BasketType';
+import './types/basket/IBasketModel';
+import './types/basket/IBasketShortUI';
+import './types/basket/IBasketUI';
+import './types/buyer/BuyerType';
+import './types/buyer/IBuyerModel';
+import './types/buyer/IBuyerUI';
+import './types/catalogue/ICatalogueModel';
+import './types/catalogue/ICatalogueAPI';
+import './types/catalogue/ICatalogueUI';
+import './types/completing/CompletingType';
+import './types/completing/ICompletingModel';
+import './types/completing/ICompletingUI';
+import './types/modal/IModalUI';
+import './types/modal/IModal';
+import './types/order/OrderType';
+import './types/order/IOrderAPI';
+import './types/order/IOrderModel';
+import './types/payment/PaymentType';
+import './types/payment/IPaymentModel';
+import './types/payment/IPaymentUI';
+import './types/product/ProductType';
+import './types/product/IProductBasketUI';
+import './types/product/IProductModel';
+import './types/product/IProductShortUI';
+import './types/product/IProductUI';
+
