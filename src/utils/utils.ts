@@ -2,11 +2,11 @@ export function pascalToKebab(value: string): string {
 	return value.replace(/([a-z0–9])([A-Z])/g, '$1-$2').toLowerCase();
 }
 
-export function isSelector(x: any): x is string {
+export function isSelector(x: unknown): x is string {
 	return typeof x === 'string' && x.length > 1;
 }
 
-export function isEmpty(value: any): boolean {
+export function isEmpty(value: unknown): boolean {
 	return value === null || value === undefined;
 }
 
@@ -30,10 +30,7 @@ export function ensureAllElements<T extends HTMLElement>(
 
 export type SelectorElement<T> = T | string;
 
-export function ensureElement<T extends HTMLElement>(
-	selectorElement: SelectorElement<T>,
-	context?: HTMLElement
-): T {
+export function ensureElement<T extends HTMLElement>(selectorElement: SelectorElement<T>, context?: HTMLElement): T {
 	if (isSelector(selectorElement)) {
 		const elements = ensureAllElements<T>(selectorElement, context);
 		if (elements.length > 1) {
@@ -50,18 +47,16 @@ export function ensureElement<T extends HTMLElement>(
 	throw new Error('Unknown selector element');
 }
 
-export function cloneTemplate<T extends HTMLElement>(
-	query: string | HTMLTemplateElement
-): T {
+export function formatNumber(x: number, sep = ' ') {
+	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+}
+
+export function cloneTemplate<T extends HTMLElement>(query: string | HTMLTemplateElement): T {
 	const template = ensureElement(query) as HTMLTemplateElement;
 	return template.content.firstElementChild.cloneNode(true) as T;
 }
 
-export function bem(
-	block: string,
-	element?: string,
-	modifier?: string
-): { name: string; class: string } {
+export function bem(block: string, element?: string, modifier?: string): { name: string; class: string } {
 	let name = block;
 	if (element) name += `__${element}`;
 	if (modifier) name += `_${modifier}`;
@@ -75,22 +70,20 @@ export function getObjectProperties(
 	obj: object,
 	filter?: (name: string, prop: PropertyDescriptor) => boolean
 ): string[] {
-	return Object.entries(
-		Object.getOwnPropertyDescriptors(Object.getPrototypeOf(obj))
-	)
-		.filter(([name, prop]: [string, PropertyDescriptor]) =>
-			filter ? filter(name, prop) : name !== 'constructor'
-		)
-		.map(([name, prop]) => name);
+	return (
+		Object.entries(Object.getOwnPropertyDescriptors(Object.getPrototypeOf(obj)))
+			.filter(([name, prop]: [string, PropertyDescriptor]) =>
+				filter ? filter(name, prop) : name !== 'constructor'
+			)
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			.map(([name, prop]) => name)
+	);
 }
 
 /**
  * Устанавливает dataset атрибуты элемента
  */
-export function setElementData<T extends Record<string, unknown> | object>(
-	el: HTMLElement,
-	data: T
-) {
+export function setElementData<T extends Record<string, unknown> | object>(el: HTMLElement, data: T) {
 	for (const key in data) {
 		el.dataset[key] = String(data[key]);
 	}
@@ -101,6 +94,7 @@ export function setElementData<T extends Record<string, unknown> | object>(
  */
 export function getElementData<T extends Record<string, unknown>>(
 	el: HTMLElement,
+	// eslint-disable-next-line @typescript-eslint/ban-types
 	scheme: Record<string, Function>
 ): T {
 	const data: Partial<T> = {};
