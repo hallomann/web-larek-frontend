@@ -21,7 +21,7 @@ export class BasketPresenter<T, M> implements IBasketPresenter<T, M> {
 
 	/**
 	 * Конструктор класса `BasketPresenter`.
-	 * @param events - Объект {@link IEvents}, который будет использоваться для генерации событий.
+	 * @param events {@link IEvents}
 	 */
 	constructor(events: IEvents) {
 		this.events = events;
@@ -29,7 +29,7 @@ export class BasketPresenter<T, M> implements IBasketPresenter<T, M> {
 
 	/**
 	 * Добавляет товар в корзину, создавая для него модель и сохраняя ее на карте _items.
-	 * @param item - Товар, который будет добавлен в корзину.
+	 * @param item
 	 */
 	addItem(item: T): void {
 		this._items.set((item as TProductType).id, this.createModel(item));
@@ -37,8 +37,8 @@ export class BasketPresenter<T, M> implements IBasketPresenter<T, M> {
 
 	/**
 	 * Создает экземпляр `ProductModel` для данного товара и возвращает его как тип M.
-	 * @param item - Товар, для которого будет создан экземпляр `ProductModel`.
-	 * @returns - Новый экземпляр `ProductModel` типа M.
+	 * @param item
+	 * @returns
 	 */
 	createModel(item: T): M {
 		return new ProductModel(item, this.events) as M;
@@ -46,7 +46,7 @@ export class BasketPresenter<T, M> implements IBasketPresenter<T, M> {
 
 	/**
 	 * Возвращает массив всех товаров в корзине.
-	 * @returns - Массив всех товаров в корзине.
+	 * @returns
 	 */
 	getAllItems(): M[] {
 		return Array.from(this._items.values());
@@ -54,8 +54,8 @@ export class BasketPresenter<T, M> implements IBasketPresenter<T, M> {
 
 	/**
 	 * Проверяет, есть ли товар с заданным идентификатором в корзине.
-	 * @param id - Идентификатор товара.
-	 * @returns - `true`, если товар есть в корзине, иначе `false`.
+	 * @param id
+	 * @returns
 	 */
 	checkItemInBasket(id: string): boolean {
 		return this._items.has(id);
@@ -63,7 +63,7 @@ export class BasketPresenter<T, M> implements IBasketPresenter<T, M> {
 
 	/**
 	 * Удаляет товар с заданным идентификатором из корзины.
-	 * @param id - Идентификатор товара.
+	 * @param id
 	 */
 	deleteItem(id: string): void {
 		this._items.delete(id);
@@ -71,7 +71,7 @@ export class BasketPresenter<T, M> implements IBasketPresenter<T, M> {
 
 	/**
 	 * Вычисляет общую цену всех товаров в корзине.
-	 * @returns - Общую цену всех товаров в корзине.
+	 * @returns
 	 */
 	getTotalPrice(): number {
 		return this.getAllItems().reduce((total, item) => total + (item as TProductType).price, 0);

@@ -14,7 +14,10 @@ import { ProductCatalogUI } from './components/product/views/catalog/ProductCata
 import { TProductType } from './components/product/types/TProductType';
 import { BasketShortUI } from './components/basket/view/short/BasketShortUI';
 import { BasketFullUI } from './components/basket/view/full/BasketFullUI';
-import { TContactsData, TPaymentData } from './components/order/types/TOrderType';
+import {
+	TContactsData,
+	TPaymentData,
+} from './components/order/types/TOrderType';
 import { PaymentUI } from './components/order/views/payment/PaymentUI';
 import { ContactsUI } from './components/order/views/contacts/ContactsUI';
 import { PageUI } from './components/page/PageUI';
@@ -28,14 +31,18 @@ import { ProductBasketUI } from './components/product/views/basket/ProductBasket
 // ======================================================================
 
 // Глобальные компоненты
-const basketShortComponent = ensureElement<HTMLButtonElement>('.header__basket');
+const basketShortComponent =
+	ensureElement<HTMLButtonElement>('.header__basket');
 const galeryComponent = ensureElement<HTMLUListElement>('.gallery');
 const modalComponent = ensureElement<HTMLElement>('#modal-container');
 
 // Шаблоны
-const productCatalogTemplate = ensureElement<HTMLTemplateElement>('#card-catalog');
-const productPreviewTemplate = ensureElement<HTMLTemplateElement>('#card-preview');
-const productBasketTemplate = ensureElement<HTMLTemplateElement>('#card-basket');
+const productCatalogTemplate =
+	ensureElement<HTMLTemplateElement>('#card-catalog');
+const productPreviewTemplate =
+	ensureElement<HTMLTemplateElement>('#card-preview');
+const productBasketTemplate =
+	ensureElement<HTMLTemplateElement>('#card-basket');
 const orderPaymentTemplate = ensureElement<HTMLTemplateElement>('#order');
 const orderContactsTemplate = ensureElement<HTMLTemplateElement>('#contacts');
 const orderSuccessTemplate = ensureElement<HTMLTemplateElement>('#success');
@@ -58,12 +65,32 @@ const app = new ApplicationsModel<TPresenters, TComponents>(
 	{
 		page: new PageUI(document.body, events, CONST.PAGE_SETTINGS),
 
-		basketShort: new BasketShortUI(basketShortComponent, events, CONST.BASKET_SHORT_SETTINGS),
-		basketFull: new BasketFullUI(cloneTemplate(basketFullTemplate), events, CONST.BASKET_SETTINGS),
-		payment: new PaymentUI(cloneTemplate(orderPaymentTemplate), events, CONST.PAYMENT_SETTINGS),
-		contacts: new ContactsUI(cloneTemplate(orderContactsTemplate), events, CONST.CONTACTS_SETTINGS),
+		basketShort: new BasketShortUI(
+			basketShortComponent,
+			events,
+			CONST.BASKET_SHORT_SETTINGS
+		),
+		basketFull: new BasketFullUI(
+			cloneTemplate(basketFullTemplate),
+			events,
+			CONST.BASKET_SETTINGS
+		),
+		payment: new PaymentUI(
+			cloneTemplate(orderPaymentTemplate),
+			events,
+			CONST.PAYMENT_SETTINGS
+		),
+		contacts: new ContactsUI(
+			cloneTemplate(orderContactsTemplate),
+			events,
+			CONST.CONTACTS_SETTINGS
+		),
 		modal: new ModalUI(modalComponent, events, CONST.MODAL_SETTINGS),
-		success: new SuccessUI(cloneTemplate(orderSuccessTemplate), events, CONST.SUCCESS_SETTINGS),
+		success: new SuccessUI(
+			cloneTemplate(orderSuccessTemplate),
+			events,
+			CONST.SUCCESS_SETTINGS
+		),
 	}
 );
 
@@ -75,7 +102,10 @@ events.on(EVENT.API_ORDER_POST, () => {
 	api.order
 		.postOrder(app.presenters.order.model.toJson())
 		.then((response) => {
-			events.emit(EVENT.LOGGER, { message: 'API_ORDER_POST response : ', response });
+			events.emit(EVENT.LOGGER, {
+				message: 'API_ORDER_POST response : ',
+				response,
+			});
 			events.emit(EVENT.RENDER_ORDER_SUCCESS);
 			app.presenters.basket.clear();
 			app.presenters.order.model.clear();
@@ -89,9 +119,12 @@ events.on(EVENT.API_ORDER_POST, () => {
 		});
 });
 
-events.on(EVENT.API_CATALOG_GET_ALL, () => {
+events.on(EVENT.API_CATALOG_GET_ALL, async () => {
 	events.emit(EVENT.LOGGER, { message: 'EVENT.API_CATALOG_GET_ALL' });
-	api.catalog.getProducts().then((data) => {
+
+	try {
+		const data = await api.catalog.getProducts();
+
 		data.forEach((item) => {
 			const product: TProductType = new ProductModel(item, events);
 			app.presenters.product.addItem(product);
@@ -111,7 +144,12 @@ events.on(EVENT.API_CATALOG_GET_ALL, () => {
 				})
 			);
 		});
-	});
+	} catch (error) {
+		console.error('Error fetching products:', error);
+		events.emit(EVENT.LOGGER, {
+			message: 'Произошла ошибка при загрузке товаров.',
+		});
+	}
 });
 
 events.on(EVENT.API_CATALOG_GET_ID, () => {
@@ -132,7 +170,7 @@ events.on(EVENT.MODAL_CLOSE, () => {
 
 events.on(EVENT.SUCCESS_CLOSE, () => {
 	events.emit(EVENT.LOGGER, { message: 'EVENT.SUCCESS_CLOSE' });
-	app.components.modal.close()
+	app.components.modal.close();
 });
 
 events.on(EVENT.BASKET_ADD_PRODUCT, ({ id }: { id: string }) => {
@@ -156,7 +194,9 @@ events.on(EVENT.RENDER_PRODUCT_PREVIEW, ({ id }: { id: string }) => {
 		events,
 		CONST.PRODUCT_PREVIEW_SETTINGS
 	);
-	app.presenters.basket.checkItemInBasket(product.id) ? (ui.button = 'Убрать из корзины') : (ui.button = 'Купить');
+	app.presenters.basket.checkItemInBasket(product.id)
+		? (ui.button = 'Убрать из корзины')
+		: (ui.button = 'Купить');
 	events.emit(EVENT.MODAL_OPEN, {
 		content: ui.render({
 			id: product.id,
@@ -202,7 +242,9 @@ events.on(EVENT.RENDER_ORDER_PAYMENT, () => {
 	events.emit(EVENT.MODAL_OPEN, {
 		content: app.components.payment.render({
 			valid: app.statusValidationFormPayment,
-			errors: app.statusValidationFormPayment ? '' : 'Выберите способ оплаты и заполните адрес доставки.',
+			errors: app.statusValidationFormPayment
+				? ''
+				: 'Выберите способ оплаты и заполните адрес доставки.',
 			next: EVENT.RENDER_ORDER_CONTACTS,
 		}),
 	});
@@ -213,7 +255,9 @@ events.on(EVENT.RENDER_ORDER_CONTACTS, () => {
 	events.emit(EVENT.MODAL_OPEN, {
 		content: app.components.contacts.render({
 			valid: app.statusValidationFormContacts,
-			errors: app.statusValidationFormContacts ? '' : 'Введите ваш контактный телефон и электронную почту.',
+			errors: app.statusValidationFormContacts
+				? ''
+				: 'Введите ваш контактный телефон и электронную почту.',
 			next: EVENT.RENDER_ORDER_SUCCESS,
 		}),
 	});
@@ -254,12 +298,16 @@ events.on(EVENT.CHECK_VALID_FORM_CONTACTS, () => {
 
 	if (app.presenters.order.model.email.length < 6) {
 		app.statusValidationFormContacts = false;
-		app.errors = 'Адрес электронной почты должен содержать не меньше 6 символов.';
+		app.errors =
+			'Адрес электронной почты должен содержать не меньше 6 символов.';
 		events.emit(EVENT.FORM_CONTACTS_ERRORS);
 		return;
 	}
 
-	if (app.presenters.order.model.email !== '' && app.presenters.order.model.phone !== '') {
+	if (
+		app.presenters.order.model.email !== '' &&
+		app.presenters.order.model.phone !== ''
+	) {
 		app.statusValidationFormContacts = true;
 		app.errors = '';
 	} else {
@@ -294,7 +342,10 @@ events.on(EVENT.CHECK_VALID_FORM_PAYMENT, () => {
 		return;
 	}
 
-	if (app.presenters.order.model.payment !== '' && app.presenters.order.model.address !== '') {
+	if (
+		app.presenters.order.model.payment !== '' &&
+		app.presenters.order.model.address !== ''
+	) {
 		app.statusValidationFormPayment = true;
 		app.errors = '';
 	}
@@ -303,7 +354,13 @@ events.on(EVENT.CHECK_VALID_FORM_PAYMENT, () => {
 
 events.on(
 	EVENT.BROCKER_FORM_VALIDATOR,
-	({ field, value }: { field: keyof TPaymentData | keyof TContactsData; value: string }) => {
+	({
+		field,
+		value,
+	}: {
+		field: keyof TPaymentData | keyof TContactsData;
+		value: string;
+	}) => {
 		events.emit(EVENT.LOGGER, { message: 'EVENT.CHECK_VALID_FORM' });
 		app.presenters.order.model[field] = value;
 		switch (field) {

@@ -22,7 +22,7 @@ export class ProductApi<TProductType> extends Api implements IProductApi<TProduc
 	/**
 	 * Извлекает список продуктов из API и возвращает обещание массива объектов TProductType.
 	 * Он сопоставляет ответ API, чтобы включить URL-адрес cdn в свойство img каждого продукта.
-	 * @returns - тип данных ответа от сервера, представленный в виде объекта.
+	 * @returns
 	 */
 	getProducts(): Promise<TProductType[]> {
 		return this.get('/product').then((data: ApiListResponse<TProductType>) => {
@@ -37,7 +37,7 @@ export class ProductApi<TProductType> extends Api implements IProductApi<TProduc
 	 * Извлекает отдельный продукт по его идентификатору из API и возвращает обещание массива объектов TProductType.
 	 * Он сопоставляет ответ API с включением URL-адреса cdn в свойство img продукта.
 	 * @param id - идентификатор продукта.
-	 * @returns - тип данных ответа от сервера, представленный в виде объекта.
+	 * @returns
 	 */
 	getProduct(id: string): Promise<TProductType[]> {
 		return this.get(`/product/${id}`).then((data: ApiListResponse<TProductType>) => {

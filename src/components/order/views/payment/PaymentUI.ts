@@ -76,7 +76,7 @@ export class PaymentUI extends FormUI<TOrderType> {
 	/**
 	 * Меняет активный тип оплаты. Если `button` - это `online`, то добавляет класс `active` online-элементу и удаляет его у receipt-элемента.
 	 * Иначе - удаляет класс `active` у online-элемента и добавляет его у receipt-элемента.
-	 * @param button - кнопка, которая была нажата
+	 * @param button
 	 */
 	private togglePaymentType(button: HTMLButtonElement) {
 		if (button === this._online) {

@@ -33,7 +33,7 @@ export class ContactsUI extends FormUI<TOrderType> {
 	}
 
 	/**
-	 * Очищает форму контактов. Удаляет текст в поле ввода телефона и почты.
+	 * Очищает форму контактов.
 	 */
 	clear(): void {
 		this._phone.value = '';

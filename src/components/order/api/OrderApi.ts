@@ -34,8 +34,8 @@ export class OrderApi extends Api implements IOrderApi {
 	 * Возвращает Promise, который выполняется с данными ответа, если запрос выполнен успешно,
 	 * или отклоняется с сообщением об ошибке, если есть ошибка.
 	 * В случае ошибки он регистрирует заказ и ошибку в консоли.
-	 * @param order - тип данных заказа, представленный в виде объекта.
-	 * @returns - тип данных ответа от сервера, представленный в виде объекта.
+	 * @param order
+	 * @returns
 	 * @see {@link TOrderResult}
 	 */
 	postOrder(order: TOrderType): Promise<void | TOrderResult> {

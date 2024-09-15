@@ -64,7 +64,7 @@ export class ProductBasketUI extends Component<TProductType> {
 
 	/**
 	 * Средство получения и установки идентификатора.
-	 * @returns {string} - идентификатор корзины продуктов.
+	 * @returns {string}
 	 */
 	public get id(): string {
 		return this._id;
@@ -72,7 +72,7 @@ export class ProductBasketUI extends Component<TProductType> {
 
 	/**
 	 * Установщик идентификатора.
-	 * @param {string} value - идентификатор корзины продуктов.
+	 * @param {string} value
 	 */
 	public set id(value: string) {
 		this._id = value;

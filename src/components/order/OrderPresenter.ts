@@ -18,7 +18,6 @@ export class OrderPresenter<E extends IEvents> {
 		this.events = events;
 		this.api = api;
 
-		// TODO: Передавать в конструктор ? 
 		this.model = new OrderModel({}, this.events);
 	}
 }

@@ -1,4 +1,3 @@
-// TODO: Возможно лучше сделать один общий абстрактный класс Catalog для реализации общих методов ?
 // IProductPresenter и IBasketPresenter
 
 /**

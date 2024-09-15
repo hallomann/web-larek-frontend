@@ -7,7 +7,7 @@ import { PageUI } from '../../page/PageUI';
 import { SuccessUI } from '../../order/views/success/SuccessUI';
 
 /**
- * Типизация объекта UI компонентов для приложения.
+ * Типизация объекта UI-компонентов для приложения.
  *
  * @property page Компонент страницы.
  * @property basketShort Компонент виджета корзины в шапке страницы.
@@ -16,7 +16,7 @@ import { SuccessUI } from '../../order/views/success/SuccessUI';
  * @property contacts Компонент модального окна контактов.
  * @property modal Компонент модального окна.
  * @property success Компонент модального окна завершения формирования заказа.
- * @description Типизация объекта UI компонентов для приложения.
+ * @description Типизация объекта UI-компонентов для приложения.
  */
 export type TComponents = {
 	page: PageUI;

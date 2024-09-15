@@ -6,7 +6,7 @@ import { ensureElement } from '../../../utils/utils';
 import { Component } from '../../../utils/base/Component';
 
 /**
- * `ModalUI` расширяет класс `Component` и представляет пользовательский интерфейс (UI) для modal.
+ * `ModalUI` расширяет класс `Component` и представляет UI для modal.
  *
  * Конструктор:
  * Инициализирует экземпляр ModalUI.

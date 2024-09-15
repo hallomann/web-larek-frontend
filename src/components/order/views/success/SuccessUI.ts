@@ -16,7 +16,7 @@ import { ensureElement } from '../../../../utils/utils';
 export class SuccessUI extends Component<TSuccessView> {
 
 	/** 
-	 * Настройки UI компонента.
+	 * Настройки UI-компонента.
 	*/
 	private readonly settings: TSuccessSettings;
 	
@@ -36,7 +36,7 @@ export class SuccessUI extends Component<TSuccessView> {
 	private _close: HTMLButtonElement;
 
 	/**
-	 * @param container - контейнер, в котором будет создан UI компонент.
+	 * @param container - контейнер, в котором будет создан UI-компонент.
 	 * @param events - экземпляр класса `IEvents`, через который будет генерироваться событие `MODAL_CLOSE`.
 	 * @param settings - объект настроек, унаследованный от `TSuccessSettings`.
 	 */

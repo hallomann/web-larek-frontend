@@ -4,7 +4,7 @@
 export type TModalView = {
 
 	/**
-	 * HTML элемент с содержимым модального окна.
+	 * HTML-элемент с содержимым модального окна.
 	 */
 	content: HTMLElement;
 };
